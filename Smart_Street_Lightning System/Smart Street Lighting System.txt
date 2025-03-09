@@ -1,0 +1,70 @@
+// Smart Street Lighting System
+public class SmartStreetLight {
+
+    private boolean motionDetected; // Represents the status of the motion sensor
+    private int lightIntensity;     // Ambient light intensity (0 to 100, where 100 is very bright)
+    private boolean streetLightOn;  // Status of the streetlight
+
+    // Constructor
+    public SmartStreetLight() {
+        this.motionDetected = false;
+        this.lightIntensity = 100; // Default to full daylight
+        this.streetLightOn = false;
+    }
+
+    // Simulate motion detection
+    public void detectMotion(boolean motion) {
+        this.motionDetected = motion;
+    }
+
+    // Update ambient light intensity (simulating a light sensor)
+    public void updateLightIntensity(int intensity) {
+        this.lightIntensity = intensity;
+    }
+
+    // Control the streetlight based on sensor data
+    public void controlLight() {
+        if (lightIntensity < 30) { // Low ambient light condition
+            if (motionDetected) {
+                streetLightOn = true; // Turn on the light when motion is detected
+                System.out.println("Motion detected. Streetlight ON.");
+            } else {
+                streetLightOn = false; // Save energy when no motion
+                System.out.println("No motion. Streetlight OFF.");
+            }
+        } else {
+            streetLightOn = false; // Sufficient natural light
+            System.out.println("Sufficient ambient light. Streetlight OFF.");
+        }
+    }
+
+    // Get the status of the streetlight
+    public boolean isStreetLightOn() {
+        return streetLightOn;
+    }
+
+    public static void main(String[] args) {
+        SmartStreetLight streetLight = new SmartStreetLight();
+
+        // Simulating real-time changes
+        System.out.println("Scenario 1: Daytime, no motion");
+        streetLight.updateLightIntensity(80); // Bright daylight
+        streetLight.detectMotion(false);     // No motion
+        streetLight.controlLight();
+
+        System.out.println("\nScenario 2: Nighttime, no motion");
+        streetLight.updateLightIntensity(20); // Dark night
+        streetLight.detectMotion(false);      // No motion
+        streetLight.controlLight();
+
+        System.out.println("\nScenario 3: Nighttime, motion detected");
+        streetLight.updateLightIntensity(20); // Dark night
+        streetLight.detectMotion(true);       // Motion detected
+        streetLight.controlLight();
+
+        System.out.println("\nScenario 4: Evening with motion detected");
+        streetLight.updateLightIntensity(50); // Evening light
+        streetLight.detectMotion(true);       // Motion detected
+        streetLight.controlLight();
+    }
+}
